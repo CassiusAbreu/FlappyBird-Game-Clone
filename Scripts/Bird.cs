@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -12,7 +13,9 @@ public class Bird : MonoBehaviour
     [SerializeField] private GameObject canvas;
     [SerializeField] private Button restartButton;
     private int _points;
+    [SerializeField] private AudioClip[] _audioClips;
     [SerializeField] private TextMeshProUGUI pointsText;
+    [SerializeField] private AudioSource _audioSource;
 
     public static bool gameOver = false;
     // Start is called before the first frame update
@@ -29,8 +32,9 @@ public class Bird : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0) && !EventSystem.current.IsPointerOverGameObject())
         {
+            _audioSource.PlayOneShot(_audioClips[0]);
             _rb.velocity = Vector2.up * speed;
         }
     }
@@ -42,11 +46,13 @@ public class Bird : MonoBehaviour
     
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        _audioSource.PlayOneShot(_audioClips[2]);
         GameOver();
     }
     
     public void AddPoints()
     {
+        _audioSource.PlayOneShot(_audioClips[1]);
         _points++;
     }
 

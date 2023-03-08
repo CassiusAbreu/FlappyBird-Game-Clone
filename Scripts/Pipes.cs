@@ -8,7 +8,7 @@ public class Pipes : MonoBehaviour
 {
 
     public float speed = 1f;
-
+    
     private SpawnManager _spawnManager;
     // Start is called before the first frame update
     void Start()
