@@ -64,8 +64,8 @@ public class Bird : MonoBehaviour
     {
         _audioSource.PlayOneShot(_audioClips[1]);
         _points++;
-        if(_points % 5 == 0)
-            _gameManager.ChangeBackground();
+        if(_points % 4 == 0)
+            _gameManager.StartCoroutine(_gameManager.ChangeBackground());
     }
 
     private void GameOver()
