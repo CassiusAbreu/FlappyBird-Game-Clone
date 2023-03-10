@@ -12,21 +12,31 @@ public class Bird : MonoBehaviour
     private Rigidbody2D _rb;
     [SerializeField] private GameObject canvas;
     [SerializeField] private Button restartButton;
-    private int _points;
+    public int _points;
+    //create a property for points
+    public int Points => _points;
     [SerializeField] private AudioClip[] _audioClips;
     [SerializeField] private TextMeshProUGUI pointsText;
     [SerializeField] private AudioSource _audioSource;
+    private GameManager _gameManager;
+    private readonly Vector3 _initialPosition = new Vector3(-0.629f, 0.851f, 0);
 
     public static bool gameOver = false;
     // Start is called before the first frame update
     void Start()
     {
-        _rb = this.gameObject.GetComponent<Rigidbody2D>();
-        restartButton.onClick.AddListener(() => SceneManager.LoadScene(0));
         _rb = GetComponent<Rigidbody2D>();
+        if(_rb == null)
+            Debug.LogError("Rigidbody2D is null");
+        
+        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        if(_gameManager == null)
+            Debug.LogError("GameManager is null");
+        
+        restartButton.onClick.AddListener(() => SceneManager.LoadScene(0));
         Time.timeScale = 1;
         canvas.SetActive(false);
-        this.transform.position = new Vector3(-0.629f, 0.851f, 0);
+        transform.position = _initialPosition;
     }
 
     // Update is called once per frame
@@ -54,6 +64,8 @@ public class Bird : MonoBehaviour
     {
         _audioSource.PlayOneShot(_audioClips[1]);
         _points++;
+        if(_points % 5 == 0)
+            _gameManager.ChangeBackground();
     }
 
     private void GameOver()

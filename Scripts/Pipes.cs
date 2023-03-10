@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class Pipes : MonoBehaviour
 {
-
     public float speed = 1f;
     
     private SpawnManager _spawnManager;

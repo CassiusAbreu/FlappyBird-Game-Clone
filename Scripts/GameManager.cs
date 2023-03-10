@@ -9,15 +9,23 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject pause;
     [SerializeField] private Button resumeButton;
     [SerializeField] private GameObject resume;
-    // Start is called before the first frame update
+    private Bird _bird;
+    [SerializeField] private Sprite[] backgrounds;
+    [SerializeField] private SpriteRenderer background;
     void Start()
     {
+        _bird = GameObject.Find("Bird").GetComponent<Bird>();
+        if(_bird == null)
+            Debug.LogError("Bird is null");
+        
+        if(background != null)
+            background.sprite = backgrounds[0];
+        
         pauseButton.onClick.AddListener( (() => GamePaused()));
         resumeButton.onClick.AddListener((() => GameResumed()));
     }
     private void GameResumed()
     {
-        Time.timeScale = 1;
         pause.SetActive(true);
         resume.SetActive(false);
     }
@@ -27,6 +35,12 @@ public class GameManager : MonoBehaviour
         pause.SetActive(false);
         resume.SetActive(true);
     }
-    
-    
+
+    public void ChangeBackground()
+    {
+        if(background.sprite == backgrounds[0])
+            background.sprite = backgrounds[1];
+        else
+            background.sprite = backgrounds[0];
+    }
 }
