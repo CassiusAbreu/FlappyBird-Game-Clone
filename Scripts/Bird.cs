@@ -12,11 +12,13 @@ public class Bird : MonoBehaviour
     private Rigidbody2D _rb;
     [SerializeField] private GameObject canvas;
     [SerializeField] private Button restartButton;
-    public int _points;
+    private int _points;
+    private static int _record;
     //create a property for points
-    public int Points => _points;
     [SerializeField] private AudioClip[] _audioClips;
     [SerializeField] private TextMeshProUGUI pointsText;
+    [SerializeField] private TextMeshProUGUI pointsTextPanel;
+    [SerializeField] private TextMeshProUGUI pointsTextRecord;
     [SerializeField] private AudioSource _audioSource;
     private GameManager _gameManager;
     private readonly Vector3 _initialPosition = new Vector3(-0.629f, 0.851f, 0);
@@ -70,8 +72,18 @@ public class Bird : MonoBehaviour
 
     private void GameOver()
     {
+        CheckIfRecord();
         Time.timeScale = 0;
         canvas.SetActive(true);
         gameOver = true;
+    }
+
+    private void CheckIfRecord()
+    {
+        if(_points > _record)
+            _record = _points;
+        
+        pointsTextRecord.text = _record.ToString();
+        pointsTextPanel.text = _points.ToString();
     }
 }
