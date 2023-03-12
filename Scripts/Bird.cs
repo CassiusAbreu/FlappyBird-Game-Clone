@@ -10,9 +10,10 @@ public class Bird : MonoBehaviour
 {
     public float speed = 1f;
     private Rigidbody2D _rb;
+    [SerializeField] private GameObject[] medals;
     [SerializeField] private GameObject canvas;
     [SerializeField] private Button restartButton;
-    private int _points;
+    public int _points;
     private static int _record;
     //create a property for points
     [SerializeField] private AudioClip[] _audioClips;
@@ -75,6 +76,7 @@ public class Bird : MonoBehaviour
         CheckIfRecord();
         Time.timeScale = 0;
         canvas.SetActive(true);
+        CheckMedal();
         gameOver = true;
     }
 
@@ -85,5 +87,24 @@ public class Bird : MonoBehaviour
         
         pointsTextRecord.text = _record.ToString();
         pointsTextPanel.text = _points.ToString();
+    }
+
+    private void CheckMedal()
+    {
+        switch (_points)
+        {
+            case <=5:
+                medals[0].SetActive(true);
+                break;
+            case <=10:
+                medals[1].SetActive(true);
+                break;
+            case <=20:
+                medals[2].SetActive(true);
+                break;
+            case >=40:
+                medals[3].SetActive(true);
+                break;
+        }
     }
 }
