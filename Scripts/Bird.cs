@@ -14,7 +14,6 @@ public class Bird : MonoBehaviour
     [SerializeField] private GameObject canvas;
     [SerializeField] private Button restartButton;
     public int _points;
-    private static int _record;
     //create a property for points
     [SerializeField] private AudioClip[] _audioClips;
     [SerializeField] private TextMeshProUGUI pointsText;
@@ -39,6 +38,7 @@ public class Bird : MonoBehaviour
         restartButton.onClick.AddListener(() => SceneManager.LoadScene(0));
         Time.timeScale = 1;
         canvas.SetActive(false);
+        pointsTextRecord.text = PlayerPrefs.GetInt("HighScore",0).ToString();
         transform.position = _initialPosition;
     }
 
@@ -82,10 +82,12 @@ public class Bird : MonoBehaviour
 
     private void CheckIfRecord()
     {
-        if(_points > _record)
-            _record = _points;
+        if (_points >  PlayerPrefs.GetInt("HighScore",0))
+        {
+            PlayerPrefs.SetInt("HighScore", _points);
+        }
         
-        pointsTextRecord.text = _record.ToString();
+        pointsTextRecord.text = PlayerPrefs.GetInt("HighScore",0).ToString();
         pointsTextPanel.text = _points.ToString();
     }
 
